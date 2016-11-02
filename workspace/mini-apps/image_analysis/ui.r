@@ -35,21 +35,7 @@ h5{border-bottom: 1px solid rgba(255,255,255,.5); color:#FFF; font-family: 'Oxyg
            h5('Orthogonal Position'),
            plotOutput('distPlot', height = "350px",    hover = "plot_hover",brush = "plot_brush")
     )
-    
-    #h5('Axial view'),
-    #column(width=6,
-    #plotOutput('Axial')
-    #      ),
-    #column(width=6,
-    # h5('Sagittal view')
-    #                  ),
-    #   column(width=6,
-    # plotOutput('Sagittal')
-    #           ),
-    #h5('Coronal view'),
-    #      column(width=6,
-    # plotOutput('Coronal')
-    #        )
+
   )
 )
 )

@@ -58,6 +58,8 @@ shinyServer(function(input, output, session) {
     progress$set(message = "Extracting information...", value = 0)
       Sys.sleep(1)
     on.exit(progress$close())
+    
+    
     hdr <- dcmImages()$hdr
     StudyID <- extractHeader(hdr, "StudyID", numeric=FALSE)
     StudyType <- as.character(extractHeader(hdr, "StudyDescription", numeric=FALSE))
