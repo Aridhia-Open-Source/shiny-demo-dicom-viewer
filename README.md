@@ -16,10 +16,10 @@ Zip the contents of the workspace folder and upload the archive to the data fold
 Place sets of dicom images contained in the folder to workspace/datafiles/DICOM images/
 
 e.g workspace/
-	datafiles/
-		DICOM images/
-			new_image_set/
-				img1.dcm
+----datafiles/
+--------DICOM images/
+------------new_image_set/
+----------------img1.dcm
 				img2.dcm
 				img3.dcm
 				.
