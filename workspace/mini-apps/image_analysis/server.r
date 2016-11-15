@@ -1,13 +1,10 @@
-library(shiny)
-library(oro.dicom)
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output, session) {
   
   
-  pth <- "~/datafiles/DICOM images/brainix/"
+  pth <- "~/datafiles/uploads/DICOM images/"
   dirs <- list.dirs(path = pth, full.names = FALSE, recursive = TRUE)
-  feedback <- reactiveValues(text = "asdas")
   
   
   output$fileSelection <- renderUI({

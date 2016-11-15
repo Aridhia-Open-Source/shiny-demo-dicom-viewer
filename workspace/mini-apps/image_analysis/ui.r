@@ -1,5 +1,8 @@
 library(shiny)
-xap.require('oro.dicom', 'oro.nifti', 'reshape2', 'RPostgreSQL')
+library(oro.dicom)
+library(oro.nifti)
+library(reshape2)
+#xap.require('oro.dicom', 'oro.nifti', 'reshape2', 'RPostgreSQL')
 
 shinyUI(fluidPage(
   theme = "theme.css",
