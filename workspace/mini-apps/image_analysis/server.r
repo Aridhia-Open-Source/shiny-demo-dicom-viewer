@@ -175,10 +175,8 @@ shinyServer(function(input, output, session) {
         row.names = F, overwrite = F,append=TRUE)
 }
   
-  btn <- reactive({
-    
-    })
-  
+
+  progress <- shiny::Progress$new()
   onoClick <- observeEvent(input$writeDB, {
     i <- input$writeDB
     if (i<1){
@@ -194,7 +192,7 @@ shinyServer(function(input, output, session) {
     
 	writeTable(output, tableName)
     feedback$text <- paste("Dataframe written to database table", tableName)
-	    progress <- shiny::Progress$new()
+	   
     progress$set(message = paste("Exporting to ", tableName, '...') , value = 0)
     Sys.sleep(5)
     on.exit(progress$close())
