@@ -2,10 +2,8 @@
 # Define server logic required to draw a histogram
 shinyServer(function(input, output, session) {
   
-  
-  pth <- "~/datafiles/uploads/DICOM images/"
+  pth <- file.path(home, datafile_path)
   dirs <- list.dirs(path = pth, full.names = FALSE, recursive = TRUE)
-  
   
   output$fileSelection <- renderUI({
     progress <- shiny::Progress$new()
@@ -18,19 +16,19 @@ shinyServer(function(input, output, session) {
   })
   
   fName <- eventReactive(input$fileInput, {
-    paste(pth, input$fileInput, sep="")
+    filename <- file.path(pth, input$fileInput)
+    print(filename)
+    return(filename)
   })
   
   observe({
     val <- hk40n()
     d <- dim(val)
+    print(d)
     progress <- shiny::Progress$new()
     progress$set(message = "Updating Position...", value = 0)
       Sys.sleep(1)
     on.exit(progress$close())
-    
- 
-    
     # Control the value, min, max, and step.
     # Step size is 2 when input value is even; 1 when value is odd.
     updateSliderInput(session, "slider_x", value = as.integer(d[1]/2),max = d[1])
@@ -39,7 +37,7 @@ shinyServer(function(input, output, session) {
   })
   
   dcmImages <- reactive({
-
+    print("dcm")
     progress <- shiny::Progress$new()
     
     progress$set(message = "Processing DICOM file...", value = 0)
@@ -49,13 +47,11 @@ shinyServer(function(input, output, session) {
     readDICOM(fName(),verbose = TRUE)
   })
   
-  
   outTable <- reactive({
     progress <- shiny::Progress$new()
     progress$set(message = "Extracting information...", value = 0)
       Sys.sleep(1)
     on.exit(progress$close())
-    
     
     hdr <- dcmImages()$hdr
     StudyID <- extractHeader(hdr, "StudyID", numeric=FALSE)
@@ -167,14 +163,6 @@ shinyServer(function(input, output, session) {
     
     
     })
-  
-  
- writeTable <- function (df, tablename)
-{
-    dbWriteTable(xap.conn, c(xap.db.sandbox, tablename), as.data.frame(df),
-        row.names = F, overwrite = F,append=TRUE)
-}
-  
 
   progress <- shiny::Progress$new()
   onoClick <- observeEvent(input$writeDB, {
@@ -207,5 +195,41 @@ shinyServer(function(input, output, session) {
   
   output$Coronal <- renderPlot({
     try(image(hk40n(),  z = input$slider_y, plane="coronal", plot.type = "single", col = gray(0:64/64)))
-  }) 
+  })
+  
+  
+  observe({
+    n <- input$axialn
+    print("scroll")
+    print(n)
+    if(is.null(input$axialn)) {
+      return()
+    }
+    change <- sign(input$axialdy)
+    isolate(updateSliderInput(session, "slider_z", value = input$slider_z + change))
+  })
+  
+  observe({
+    n <- input$sagittaln
+    print(n)
+    print("scroll")
+    if(is.null(input$sagittaln)) {
+      return()
+    }
+    change <- sign(input$sagittaldy)
+    isolate(updateSliderInput(session, "slider_x", value = input$slider_x + change))
+  })
+  
+  observe({
+    n <- input$coronaln
+    print(n)
+    print("scroll")
+    if(is.null(input$coronaln)) {
+      return()
+    }
+    change <- sign(input$coronaldy)
+    isolate(updateSliderInput(session, "slider_y", value = input$slider_y + change))
+  })
+  
+  
 })
