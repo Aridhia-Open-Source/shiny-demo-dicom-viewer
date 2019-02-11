@@ -1,4 +1,6 @@
 
+xap.require("oro.dicom", "oro.nifti", "RPostgreSQL", "purrr")
+
 
 if(exists("xap.conn")) {
   home <- "~"
@@ -11,5 +13,5 @@ if(exists("xap.conn")) {
 
 writeTable <- function (df, tablename) {
   dbWriteTable(xap.conn, c(xap.db.sandbox, tablename), as.data.frame(df),
-               row.names = F, overwrite = F,append=TRUE)
+               row.names = F, overwrite = F, append = TRUE)
 }
