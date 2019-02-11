@@ -7,7 +7,7 @@ shinyServer(function(input, output, session) {
   
   output$fileSelection <- renderUI({
     verticalLayout(
-      selectInput('fileInput', '', choices = dirs, selected = dirs[2])
+      selectInput("fileInput", "", choices = dirs, selected = dirs[2])
     )
   })
   
@@ -78,31 +78,35 @@ shinyServer(function(input, output, session) {
   })
  
   output$distPlot <- renderPlot({
-    withProgress(message = "Updating Orthongonal Positions...", value = 1, {
+    #withProgress(message = "Updating Orthongonal Positions...", value = 1, {
       img <- selected_nifti()
-      out <- orthographic(img,
-                          col.crosshairs = "green",
-                          xyz = c(input$slider_x, input$slider_y, input$slider_z),
-                          oma = rep(0, 4),
-                          mar = rep(0.5, 4),
-                          col = gray(0:64/64),
-                          text = paste(
-                            'StudyID: ',    out_table()[1, "StudyID"], '\n',
-                            'Study Type: ', out_table()[1, "StudyType"], '\n',
-                            'Date: ',       out_table()[1, "AcquisitionDate"], '\n',
-                            'Patient: ',    out_table()[1, "PatientsName"], '\n',
-                            'PatientID: ',  out_table()[1, "PatientID"], '\n'),
-      text.color = "white",
-      text.cex = 1,
-      useRaster = TRUE)
-    })
+      x <- min(c(input$slider_x, nifti_dim()[1]))
+      y <- min(c(input$slider_y, nifti_dim()[2]))
+      z <- min(c(input$slider_z, nifti_dim()[3]))
+      orthographic(
+        img,
+        col.crosshairs = "green",
+        xyz = c(x, y, z),
+        oma = rep(0, 4),
+        mar = rep(0.5, 4),
+        col = gray(0:64/64),
+        text = paste(
+          'StudyID: ',    out_table()[1, "StudyID"], '\n',
+          'Study Type: ', out_table()[1, "StudyType"], '\n',
+          'Date: ',       out_table()[1, "AcquisitionDate"], '\n',
+          'Patient: ',    out_table()[1, "PatientsName"], '\n',
+          'PatientID: ',  out_table()[1, "PatientID"], '\n'),
+        text.color = "white",
+        text.cex = 1,
+        useRaster = TRUE
+      )
   })
   
   patientInfo <- reactive({
     pat_id <- 'Unspecified'
     pat_name <- 'Unspecified'
     study <- 'Unspefcified'
-    if (input$fileInput== 'SOUS - 702') {
+    if (input$fileInput == 'SOUS - 702') {
       pat_id <- 'pat_001'
       pat_name <- 'Gandalf'
       study <- 'Brain MRI'
@@ -162,21 +166,24 @@ shinyServer(function(input, output, session) {
   })
   
   output$axial <- renderPlot({
-    withProgress(message = "Updating Axial Image...", value = 1, {
-      image(selected_nifti(), z = input$slider_z, plane = "axial", plot.type = "single", col = gray(0:64/64), useRaster = TRUE)
-    })
+    #withProgress(message = "Updating Axial Image...", value = 1, {
+      image(selected_nifti(), z = input$slider_z, plane = "axial",
+            plot.type = "single", col = gray(0:64/64), useRaster = TRUE)
+    #})
   })
   
   output$sagittal <- renderPlot({
-    withProgress(message = "Updating Sagittal Image...", value = 1, {
-      image(selected_nifti(), z = input$slider_x, plane = "sagittal", plot.type = "single", col = gray(0:64/64), useRaster = TRUE)
-    })
+    #withProgress(message = "Updating Sagittal Image...", value = 1, {
+      image(selected_nifti(), z = input$slider_x, plane = "sagittal",
+            plot.type = "single", col = gray(0:64/64), useRaster = TRUE)
+    #})
   })  
   
   output$coronal <- renderPlot({
-    withProgress(message = "Updating Coronal Image...", value = 1, {
-      image(selected_nifti(), z = input$slider_y, plane = "coronal", plot.type = "single", col = gray(0:64/64), useRaster = TRUE)
-    })
+    #withProgress(message = "Updating Coronal Image...", value = 1, {
+      image(selected_nifti(), z = input$slider_y, plane = "coronal",
+            plot.type = "single", col = gray(0:64/64), useRaster = TRUE)
+    #})
   })
   
   # 
