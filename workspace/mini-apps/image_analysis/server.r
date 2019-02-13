@@ -1,20 +1,10 @@
 
-# Define server logic required to draw a histogram
 shinyServer(function(input, output, session) {
-  
-  pth <- file.path(home, datafile_path)
-  dirs <- list.dirs(path = pth, full.names = FALSE, recursive = TRUE)
-  
-  output$fileSelection <- renderUI({
-    verticalLayout(
-      selectInput("fileInput", "", choices = dirs, selected = dirs[2])
-    )
-  })
   
   selected_file <- eventReactive(input$fileInput, {
     filename <- file.path(pth, input$fileInput)
     if(length(filename) == 0 || !dir.exists(filename) || is.na(filename)) {
-      filename <- list.files(file.path(home, datafile_path), full.names = TRUE)[1]
+      filename <- list.files(file.path(pth, default_dicom))
     }
     return(filename)
   })

@@ -19,7 +19,9 @@ shinyUI(fluidPage(
   fluidRow(
     column(width = 2,
       h5("Select patient file"),
-      uiOutput("fileSelection"),
+      verticalLayout(
+        selectInput("fileInput", "", choices = dirs, selected = default_dicom)
+      ),
       div(class = "sagittalScroll", sliderInput("slider_x", "X orientation", min = 1, max = 10, value = 5)),
       div(class = "coronalScroll", sliderInput("slider_y", "Y orientation", min = 1, max = 10, value = 5)),
       div(class = "axialScroll", sliderInput("slider_z", "Z orientation", min = 1, max = 10, value = 5))

@@ -14,3 +14,7 @@ writeTable <- function (df, tablename) {
   dbWriteTable(xap.conn, c(xap.db.sandbox, tablename), as.data.frame(df),
                row.names = F, overwrite = F, append = TRUE)
 }
+
+pth <- file.path(home, datafile_path)
+dirs <- list.dirs(path = pth, full.names = FALSE, recursive = TRUE)
+default_dicom <- dirs[2]
