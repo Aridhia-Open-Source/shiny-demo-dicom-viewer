@@ -13,7 +13,7 @@ shinyServer(function(input, output, session) {
   
   selected_file <- eventReactive(input$fileInput, {
     filename <- file.path(pth, input$fileInput)
-    if(length(filename) == 0 || !dir.exists(filename)) {
+    if(length(filename) == 0 || !dir.exists(filename) || is.na(filename)) {
       filename <- list.files(file.path(home, datafile_path), full.names = TRUE)[1]
     }
     return(filename)
