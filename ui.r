@@ -1,6 +1,6 @@
 
 
-shinyUI(fluidPage(
+ui <- fluidPage(
   theme = "theme.css",
   includeScript("www/wheel.js"),
     tags$head(
@@ -60,5 +60,4 @@ shinyUI(fluidPage(
       plotOutput("distPlot", height = "350px", hover = "plot_hover", brush = "plot_brush")
     )
   )
-)
 )

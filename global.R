@@ -1,4 +1,5 @@
 
+library(shiny)
 library(oro.dicom)
 library(oro.nifti)
 library(RPostgreSQL)
@@ -6,7 +7,7 @@ library(purrr)
 
 datafile_path <- "data/dicom_images/"
 
-writeTable <- function (df, tablename) {
+writeTable <- function(df, tablename) {
   dbWriteTable(xap.conn, c(xap.db.sandbox, tablename), as.data.frame(df),
                row.names = F, overwrite = F, append = TRUE)
 }

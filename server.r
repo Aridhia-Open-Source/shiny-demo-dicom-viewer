@@ -1,5 +1,5 @@
 
-shinyServer(function(input, output, session) {
+server <- function(input, output, session) {
   
   selected_file <- eventReactive(input$fileInput, {
     filename <- file.path(pth, input$fileInput)
@@ -204,5 +204,4 @@ shinyServer(function(input, output, session) {
     isolate(updateSliderInput(session, "slider_y", value = input$slider_y + change))
   })
 
-  
-})
+}
