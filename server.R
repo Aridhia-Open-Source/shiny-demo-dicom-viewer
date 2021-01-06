@@ -151,7 +151,7 @@ server <- function(input, output, session) {
     
     withProgress(message = paste("Exporting to ", tableName, '...'), {
       writeTable(output, tableName)
-      feedback$text <- paste("Dataframe written to database table", tableName)
+      #feedback$text <- paste("Dataframe written to database table", tableName)
     })
   })
   
