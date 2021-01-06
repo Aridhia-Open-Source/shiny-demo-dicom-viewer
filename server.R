@@ -69,70 +69,43 @@ server <- function(input, output, session) {
  
   output$distPlot <- renderPlot({
     #withProgress(message = "Updating Orthongonal Positions...", value = 1, {
-      img <- selected_nifti()
-      x <- min(c(input$slider_x, nifti_dim()[1]))
-      y <- min(c(input$slider_y, nifti_dim()[2]))
-      z <- min(c(input$slider_z, nifti_dim()[3]))
-      orthographic(
-        img,
-        col.crosshairs = "green",
-        xyz = c(x, y, z),
-        oma = rep(0, 4),
-        mar = rep(0.5, 4),
-        col = gray(0:64/64),
-        text = paste(
-          'StudyID: ',    out_table()[1, "StudyID"], '\n',
-          'Study Type: ', out_table()[1, "StudyType"], '\n',
-          'Date: ',       out_table()[1, "AcquisitionDate"], '\n',
-          'Patient: ',    out_table()[1, "PatientsName"], '\n',
-          'PatientID: ',  out_table()[1, "PatientID"], '\n'),
-        text.color = "white",
-        text.cex = 1,
-        useRaster = TRUE
-      )
+    img <- selected_nifti()
+    x <- min(c(input$slider_x, nifti_dim()[1]))
+    y <- min(c(input$slider_y, nifti_dim()[2]))
+    z <- min(c(input$slider_z, nifti_dim()[3]))
+    orthographic(
+      img,
+      col.crosshairs = "green",
+      xyz = c(x, y, z),
+      oma = rep(0, 4),
+      mar = rep(0.5, 4),
+      col = gray(0:64/64),
+      text = paste(
+        "StudyID: "   , out_table()[1, "StudyID"], "\n",
+        "Study Type: ", out_table()[1, "StudyType"], "\n",
+        "Date: "      , out_table()[1, "AcquisitionDate"], "\n",
+        "Patient: "   , out_table()[1, "PatientsName"], "\n",
+        "PatientID: " , out_table()[1, "PatientID"], "\n"
+      ),
+      text.color = "white",
+      text.cex = 1,
+      useRaster = TRUE
+    )
   })
   
   patientInfo <- reactive({
-    pat_id <- 'Unspecified'
-    pat_name <- 'Unspecified'
-    study <- 'Unspefcified'
-    if (input$fileInput == 'SOUS - 702') {
-      pat_id <- 'pat_001'
-      pat_name <- 'Gandalf'
-      study <- 'Brain MRI'
-    }
-    if (input$fileInput == 'sT2-TSE-T - 301') {
-      pat_id <- 'pat_002'
-      pat_name <- 'Aragorn'
-      study <- 'Neck MRI'
-    }
-    if (input$fileInput == 'sT2W-FLAIR - 401') {
-      pat_id <- 'pat_003'
-      pat_name <- 'Legolas'
-      study <- 'Pituitary MRI'
-    }
-    if (input$fileInput == 'T1-3D-FFE-C - 801') {
-      pat_id <- 'pat_004'
-      pat_name <- 'Gimli'
-      study <- 'Thoratic-spine MRI'
-    }
-    if (input$fileInput == 'T1-SE-extrp - 601') {
-      pat_id <- 'pat_005'
-      pat_name <- 'Frodo'
-      study <- 'Some-other MRI'
-    }
-    if (input$fileInput == 'T1-SE-extrp - 701') {
-      pat_id <- 'pat_006'
-      pat_name <- 'Bilbo'
-      study <- 'Some-other MRI'
-    }
-    if (input$fileInput == 'T2W-FE-EPI - 501') {
-      pat_id <- 'pat_007'
-      pat_name <- 'Gollum'
-      study <- 'Some-other MRI'
-    }
+    pat <- switch(input$fileInput,
+      "SOUS - 702" = c("pat_001", "Gandalf", "Brain MRI"),
+      "sT2-TSE-T - 301" = c("pat_002", "Aragorn", "Neck MRI"),
+      "sT2W-FLAIR - 401" = c("pat_003", "Legolas", "Pituitary MRI"),
+      "T1-3D-FFE-C - 801" = c("pat_004", "Gimli", "Thoratic-spine MRI"),
+      "T1-SE-extrp - 601" = c("pat_005", "Frodo", "Some-other MRI"),
+      "T1-SE-extrp - 701" = c("pat_006", "Bilbo", "Some-other MRI"),
+      "T2W-FE-EPI - 501" = c("pat_007", "Gollum", "Some-other MRI"),
+      c("Unspecified", "Unspecified", "Unspecified")
+    )
     
-    df <- data.frame(c(pat_id, pat_name, study), row.names = c('Patients ID: ', 'Name: ', 'Exam: '))
+    df <- data.frame(pat, row.names = c("Patients ID: ", "Name: ", "Exam: "))
     colnames(df) <- NULL
     return(df)
   })
@@ -143,13 +116,13 @@ server <- function(input, output, session) {
       return()
     }
 
-    tableName <- 'image_analysis_findings'
+    tableName <- "image_analysis_findings"
     pat <- t(patientInfo())
     df <- out_table()[1, ]
     
     output <- cbind(pat, df)
     
-    withProgress(message = paste("Exporting to ", tableName, '...'), {
+    withProgress(message = paste("Exporting to ", tableName, "..."), {
       writeTable(output, tableName)
       #feedback$text <- paste("Dataframe written to database table", tableName)
     })
@@ -163,17 +136,13 @@ server <- function(input, output, session) {
   })
   
   output$sagittal <- renderPlot({
-    #withProgress(message = "Updating Sagittal Image...", value = 1, {
       image(selected_nifti(), z = input$slider_x, plane = "sagittal",
             plot.type = "single", col = gray(0:64/64), useRaster = TRUE)
-    #})
   })  
   
   output$coronal <- renderPlot({
-    #withProgress(message = "Updating Coronal Image...", value = 1, {
       image(selected_nifti(), z = input$slider_y, plane = "coronal",
             plot.type = "single", col = gray(0:64/64), useRaster = TRUE)
-    #})
   })
   
   # 
