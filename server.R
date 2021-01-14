@@ -1,13 +1,20 @@
+######################
+####### SERVER #######
+######################
+
 
 server <- function(input, output, session) {
   
+  # File selected to view
   selected_file <- eventReactive(input$fileInput, {
-    filename <- file.path(pth, input$fileInput)
+    filename <- file.path(datafile_path, input$fileInput)
+    # If no file has been selected, use default images
     if(length(filename) == 0 || !dir.exists(filename) || is.na(filename)) {
-      filename <- list.files(file.path(pth, default_dicom))
+      filename <- list.files(file.path(datafile_path, default_dicom))
     }
     return(filename)
   })
+  
   
   observe({
     val <- selected_nifti()
@@ -20,6 +27,7 @@ server <- function(input, output, session) {
     })
   })
   
+  # Read image
   dcm_images <- reactive({
     dicoms <- selected_file()
     
@@ -39,6 +47,7 @@ server <- function(input, output, session) {
     })
   })
   
+  # Build table below the image
   out_table <- reactive({
     withProgress(message = "Extracting information...", {
       hdr <- dcm_images()$hdr
@@ -52,21 +61,25 @@ server <- function(input, output, session) {
       return(df)
     })
   })
-
+  
+  # Renders out table
   output$table <- renderTable({
     table <- out_table()
     names(table) <- sapply(names(table), function(x) gsub("(.)([A-Z][a-z])|([a-z])([A-Z][A-Z])","\\1\\3 \\2\\4", x))
     table[1, ]
   })
   
+  # Header information of DICOM file
   selected_nifti <- reactive({
     dicom2nifti(dcm_images())
   })
   
+  # Dimention of nifti
   nifti_dim <- reactive({
     dim(selected_nifti())
   })
  
+  # Plot in the right-side of the image
   output$distPlot <- renderPlot({
     #withProgress(message = "Updating Orthongonal Positions...", value = 1, {
     img <- selected_nifti()
@@ -93,6 +106,7 @@ server <- function(input, output, session) {
     )
   })
   
+  # Setting patient info for each file
   patientInfo <- reactive({
     pat <- switch(input$fileInput,
       "SOUS - 702" = c("pat_001", "Gandalf", "Brain MRI"),
@@ -109,7 +123,8 @@ server <- function(input, output, session) {
     colnames(df) <- NULL
     return(df)
   })
-
+  
+  # Button to write to DB
   onoClick <- observeEvent(input$writeDB, {
     i <- input$writeDB
     if (i < 1){
@@ -128,6 +143,7 @@ server <- function(input, output, session) {
     })
   })
   
+  # Print image - axial view
   output$axial <- renderPlot({
     #withProgress(message = "Updating Axial Image...", value = 1, {
       image(selected_nifti(), z = input$slider_z, plane = "axial",
@@ -135,17 +151,19 @@ server <- function(input, output, session) {
     #})
   })
   
+  # Print image - sagittal view
   output$sagittal <- renderPlot({
       image(selected_nifti(), z = input$slider_x, plane = "sagittal",
             plot.type = "single", col = gray(0:64/64), useRaster = TRUE)
   })  
   
+  # Print image - coronal view
   output$coronal <- renderPlot({
       image(selected_nifti(), z = input$slider_y, plane = "coronal",
             plot.type = "single", col = gray(0:64/64), useRaster = TRUE)
   })
   
-  # 
+  # Sliders
   observe({
     n <- input$axialn
     if(is.null(input$axialn)) {
