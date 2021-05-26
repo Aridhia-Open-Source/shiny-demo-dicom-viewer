@@ -6,7 +6,7 @@ imaging information and related data. DICOM standard is used in several imaging 
 DICOM files contain pixel information, as well as a lot of metadata about the method used to acquire the image, its orientation, study and patient information, amongst others. Allowing users to combine imaging and non-imaging data. For this reason, DICOM files are a great source of information in the field of medical imaging and image analysis and research.
 
 This mini-app allows users to interactively visualise and explore 3D DICOM volume utilising *oro.dicom* and *oro.nifti* packages. These are to read DICOM files, display volums and extract DICOM metadata. Information about these packages can be found here: https://cran.r-project.org/web/packages/oro.dicom/index.html.
-The sample DICOM images displayed are from MRIs (source: http://www.osirix-viewer.com/datasets/DATA/BRAINIX.zip).
+The sample DICOM images displayed are from MRIs (source: https://www.osirix-viewer.com/resources/dicom-image-library/, the library is called BRAINIX).
 
 For more information about this app you can read the dedicated blog post at http://www.aridhia.com/blog/interactively-visualising-dicom-volumes-and-header-data/.
 

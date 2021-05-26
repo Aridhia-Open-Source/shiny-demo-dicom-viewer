@@ -7,7 +7,7 @@ documentation_tab <- function() {
                        p("The Digital Imaging and Communications in Medicine or DICOM is the standard for the communication and managment of medical
                          imaging information and related data."),
                        p("The sample images displaying the app are results from Magnetic Resonances of the brain. 
-                         The source of this data is: http://www.osirix-viewer.com/datasets/DATA/BRAINIX.zip"),
+                         The source of this data is", tags$a("Osirix", href = "https://www.osirix-viewer.com/resources/dicom-image-library/"), ", from a library called BRAINIX."),
                        h4("Adding your images"),
                        p("To use other DICOM images in the app, you can place sets of DICOM images 
                          inside the folder called 'dicom_images' within the 'data' folder in the parent directory" ),
