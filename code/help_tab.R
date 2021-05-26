@@ -17,7 +17,8 @@ documentation_tab <- function() {
                        p("In the middle of the screen the image will be displayed. You can change the plane view by clicking on 'Axial', 'Sagittal' or 
                          'Coronal' tabs just above the image. Under the image a table with the file information is printed."),
                        p("On the left-side of the screen, you can see the Orthogonal Position in the three axis at the same time."),
-                       br()
+                       br(),
+                       p('The button on the bottom of the page to "Extract DICOM headers to database" only works if you are using the app within a workspace, and you have a dataset called "image_analysis_findings" in your database.')
                      ),
                      column(
                        6,

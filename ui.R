@@ -19,7 +19,9 @@ ui <- fluidPage(
          font-weight: bold;
          padding-bottom: 10px;
        }"
-    ))
+    )),
+    tags$title("DICOM Viewer"),
+    tags$link(rel = "shortcut icon", href = "favicon.ico")
   ),
   tabsetPanel(
     # Tab Panel for the application --------------------

@@ -124,6 +124,17 @@ server <- function(input, output, session) {
     return(df)
   })
   
+  # define location of server-side filesystem
+  defaultRoot = "files" # name of root folder location for display (does not necessarily have to match folder name)
+  roots = c("/home/workspace/files") # path of root folder location
+  names(roots) <- defaultRoot
+  
+  # built in handling function to produce relevant modal
+  shinyFileSave(input, "workspace_save", roots=roots,
+                defaultPath="", defaultRoot=defaultRoot, session=session)
+  
+  
+  
   # Button to write to DB
   onoClick <- observeEvent(input$writeDB, {
     i <- input$writeDB
@@ -139,7 +150,7 @@ server <- function(input, output, session) {
     
     withProgress(message = paste("Exporting to ", tableName, "..."), {
       writeTable(output, tableName)
-      #feedback$text <- paste("Dataframe written to database table", tableName)
+      feedback$text <- paste("Dataframe written to database table", tableName)
     })
   })
   

@@ -17,6 +17,8 @@ The image will be displayed in the middle of the screen, you can change the view
 Under the image a table with the file information will be displayed. 
 On the left-side of the screen, you will see the orthogonal position of your current view. 
 
+The button on the bottom of the page to "Extract DICOM headers to database" only works if you are using the app within a workspace, and you have a dataset called "image_analysis_findings" in your database.
+
 ### Using your DICOM files
 
 To use other DICOM files in the app, you can place the new folder inside the 'dicom_images' directory:
