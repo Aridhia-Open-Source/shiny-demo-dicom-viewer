@@ -44,7 +44,7 @@ Open the .Rproj file in RStudio and run `runApp()` to run the app.
 
 1. Create a new mini-app in the workspace called "dicom-viewer" and delete the folder created for it
 2. Download this GitHub repo as a .ZIP file, or zip all the files
-3. Upload the .ZIP file to the workspace and upzip it inside a folder called "dicom-viewer"
+3. Upload the .ZIP file to the workspace and unzip it inside a folder called "dicom-viewer"
 4. Run the `dependencies.R` script to install all the packages required by the app
 5. Run the app in your workspace
 
