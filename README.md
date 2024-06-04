@@ -45,7 +45,7 @@ Open the .Rproj file in RStudio and run `runApp()` to run the app.
 1. Download this GitHub repo as a .zip file.
 2. Create a new blank Shiny app in your workspace called "dicom-viewer".
 3. Navigate to the `dicom-viewer` folder under "files".
-4. Delete the `app.R` file from the ``dicom-viewer folder. Make sure you keep the `.version` file!
+4. Delete the `app.R` file from the `dicom-viewer` folder. Make sure you keep the `.version` file!
 5. Upload the .zip file to the `dicom-viewer` folder.
 6. Extract the .zip file. Make sure "Folder name" is blank and "Remove compressed file after extracting" is ticked.
 7. Navigate into the unzipped folder.
