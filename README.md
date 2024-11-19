@@ -36,7 +36,7 @@ To use other DICOM files in the app, you can place the new folder inside the 'di
 You can clone this repository by using the command:
 
 ```clone
-git clone https://github.com/aridhia/demo-dicom-viewer
+git clone https://github.com/Aridhia-Open-Source/shiny-demo-dicom-viewer
 ```
 Open the .Rproj file in RStudio and run `runApp()` to run the app. 
 
