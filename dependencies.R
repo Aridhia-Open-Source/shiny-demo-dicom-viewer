@@ -4,7 +4,7 @@
 
 
 # Packages needed to run the app
-packages <- c("oro.dicom", "oro.nifti", "DBI", "RPostgreSQL", "purr", "shiny", "RPSLite")
+packages <- c("oro.dicom", "oro.nifti", "DBI", "RPostgreSQL", "purrr", "shiny")
 
 
 # Install packages if not already installed
